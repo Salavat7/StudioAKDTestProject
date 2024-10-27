@@ -16,6 +16,7 @@ public class PlayerInput : MonoBehaviour
     private int _pickableLayer = 3;
     private GameObject _pickedObj;
     private Rigidbody _pickedItemRb;
+    private float _maxPickableDistance = 3f;
 
     private void Start()
     {
@@ -25,7 +26,7 @@ public class PlayerInput : MonoBehaviour
         _pickedObj = null;
         _pickedItemRb = null;
     }
-    
+
     private void FixedUpdate()
     {
         //Moovement of player
@@ -67,9 +68,18 @@ public class PlayerInput : MonoBehaviour
             if (_pickedObj != null)
             {
                 _pickedItemRb = _pickedObj.GetComponent<Rigidbody>();
-                _pickedItemRb.useGravity = false;
-                Vector3 pickedPosOnPlayer = _camera.transform.position + _camera.transform.forward * 2 + Vector3.up / 3 - _pickedObj.transform.position;
-                _pickedItemRb.velocity = pickedPosOnPlayer / _pickedItemRb.mass;
+
+
+                if (Vector3.Distance(gameObject.transform.position, _pickedObj.transform.position) < _maxPickableDistance)
+                {
+                    _pickedItemRb.useGravity = false;
+                    Vector3 pickedPosOnPlayer = _camera.transform.position + _camera.transform.forward * 2 + Vector3.up / 3 - _pickedObj.transform.position;
+                    _pickedItemRb.velocity = pickedPosOnPlayer / _pickedItemRb.mass;
+                }
+                else
+                {
+                    _pickedItemRb.useGravity = true;
+                }
 
                 //Debug.Log("PICKED");
             }
