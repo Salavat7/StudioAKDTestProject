@@ -3,7 +3,6 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 public class PlayerInput : MonoBehaviour
 {
-    //const float MAX_ANGLE_OF_ROTATION = 40;
     const int PLAYER_SPEED = 10;
 
     [SerializeField] private Camera _camera;
@@ -43,8 +42,6 @@ public class PlayerInput : MonoBehaviour
         _lastMousePos = new Vector3(-_lastMousePos.y * _camSens, _lastMousePos.x * _camSens, 0);
         _lastMousePos = new Vector3(_camera.transform.eulerAngles.x + _lastMousePos.x, _camera.transform.eulerAngles.y + _lastMousePos.y, 0);
 
-        //Debug.Log(_lastMousePos.x);
-
         if (_lastMousePos.x > 40 && _lastMousePos.x < 300)
             _lastMousePos = new Vector3(40, _lastMousePos.y, 0);
         else if (_lastMousePos.x < 320 && _lastMousePos.x > 40)
@@ -80,8 +77,6 @@ public class PlayerInput : MonoBehaviour
                 {
                     _pickedItemRb.useGravity = true;
                 }
-
-                //Debug.Log("PICKED");
             }
         }
     }
