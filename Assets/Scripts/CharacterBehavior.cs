@@ -63,7 +63,7 @@ public class CharacterBehavior : MonoBehaviour
 
             bool isHit = Physics.Raycast(ray, out hit, MAX_DISTANCE_TO_PICK, LayerMask.GetMask("Pickable"));
 
-            if (isHit)
+            if (isHit && _pickedObj == null)
                 _pickedObj = hit.transform.gameObject;
 
             if (_pickedObj != null)
