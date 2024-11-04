@@ -1,5 +1,6 @@
 using System;
 using PlayerInput;
+using UnityEngine;
 
 namespace Mediators
 {
@@ -16,6 +17,7 @@ namespace Mediators
             _playerInput.HorizontalInput += OnHorizontalInput;
             _playerInput.VerticalInput += OnVerticalInput;
             _playerInput.RotationOfCamera += OnRotationOfCamera;
+            _playerInput.Pick += OnPick;
         }
 
         public void Dispose()
@@ -35,9 +37,14 @@ namespace Mediators
             _characterBehavior.SetForwardMoving(verticalInput);
         }
 
-        private void OnRotationOfCamera(UnityEngine.Vector3 angleOfCameraRotation)
+        private void OnRotationOfCamera(Vector3 angleOfCameraRotation)
         {
             _characterBehavior.SetRotationOfCamera(angleOfCameraRotation);
+        }
+
+        private void OnPick(bool pick)
+        {
+            _characterBehavior.Pick(pick);
         }
     }
 }

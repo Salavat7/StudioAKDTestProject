@@ -9,6 +9,8 @@ namespace PlayerInput
         public event Action<Vector3> RotationOfCamera;
         public event Action<float> HorizontalInput;
         public event Action<float> VerticalInput;
+        public event Action<bool> Pick;
+
         private bool _enable;
         private Vector3 _lastMousePos;
         private float _RotationOfCameraSensitivity = 0.25f;
@@ -36,6 +38,7 @@ namespace PlayerInput
                 HorizontalInput?.Invoke(Input.GetAxis("Horizontal"));
                 VerticalInput?.Invoke(Input.GetAxis("Vertical"));
                 RotationOfCamera?.Invoke(AngleOfCameraRotation(Input.mousePosition));
+                Pick?.Invoke(Input.GetMouseButton(0));
             }
         }
 
