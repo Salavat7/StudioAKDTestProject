@@ -5,10 +5,11 @@ public class CharacterBehavior : MonoBehaviour
 {
     private const float MAX_DISTANCE_TO_PICK = 3;
     private const float MAX_ANGLE_OF_CAMERA_ROTATION = 50;
+    private const float MAX_PLAYER_SPEED = 5;
     [SerializeField] private LayerMask _pickable;
     [SerializeField] private Camera _camera;
     [SerializeField] private Vector3 _offsetOfCamera;
-    [SerializeField] private float _playerSpeed;
+    [SerializeField] private float _playerAcceleration;
     private Vector2 _movement;
     private Vector3 _angleOfCameraRotation;
     private Rigidbody _playerRb;
@@ -29,8 +30,12 @@ public class CharacterBehavior : MonoBehaviour
     {
         _camera.transform.position = gameObject.transform.position + _offsetOfCamera;
         _camera.transform.eulerAngles = _angleOfCameraRotation;
-        _playerRb.AddForce(_camera.transform.right * _playerSpeed * _movement.x);
-        _playerRb.AddForce(_camera.transform.forward * _playerSpeed * _movement.y);
+
+        if (_playerRb.velocity.magnitude < MAX_PLAYER_SPEED)
+        {
+            _playerRb.AddForce(_camera.transform.right * _playerAcceleration * _movement.x);
+            _playerRb.AddForce(_camera.transform.forward * _playerAcceleration * _movement.y);
+        }
     }
 
     public void SetRotationOfCamera(Vector3 angleOfCameraRotation)
