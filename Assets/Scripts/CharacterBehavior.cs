@@ -5,6 +5,7 @@ public class CharacterBehavior : MonoBehaviour
 {
     private const float MAX_DISTANCE_TO_PICK = 3;
     private const float MAX_ANGLE_OF_CAMERA_ROTATION = 50;
+    [SerializeField] private LayerMask _pickable;
     [SerializeField] private Camera _camera;
     [SerializeField] private Vector3 _offsetOfCamera;
     [SerializeField] private float _playerSpeed;
@@ -14,9 +15,13 @@ public class CharacterBehavior : MonoBehaviour
     private Rigidbody _playerRb;
     private GameObject _pickedObj;
 
-    private void Start()
+    private void Awake()
     {
         _playerRb = gameObject.GetComponent<Rigidbody>();
+    }
+
+    private void Start()
+    {
         _angleOfCameraRotation = _camera.transform.eulerAngles;
         _moveForward = 0;
         _moveRight = 0;
@@ -61,7 +66,7 @@ public class CharacterBehavior : MonoBehaviour
             Debug.DrawRay(ray.origin, ray.direction, Color.red);
             RaycastHit hit;
 
-            bool isHit = Physics.Raycast(ray, out hit, MAX_DISTANCE_TO_PICK, LayerMask.GetMask("Pickable"));
+            bool isHit = Physics.Raycast(ray, out hit, MAX_DISTANCE_TO_PICK, _pickable);
 
             if (isHit && _pickedObj == null)
                 _pickedObj = hit.transform.gameObject;
