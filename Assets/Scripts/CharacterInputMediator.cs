@@ -14,27 +14,21 @@ namespace Mediators
             _playerInput = playerInput;
             _characterBehavior = characterBehavior;
 
-            _playerInput.HorizontalInput += OnHorizontalInput;
-            _playerInput.VerticalInput += OnVerticalInput;
+            _playerInput.Movement += OnMovement;
             _playerInput.RotationOfCamera += OnRotationOfCamera;
             _playerInput.Pick += OnPick;
         }
 
         public void Dispose()
         {
-            _playerInput.HorizontalInput -= OnHorizontalInput;
-            _playerInput.VerticalInput -= OnVerticalInput;
+            _playerInput.Movement -= OnMovement;
             _playerInput.RotationOfCamera -= OnRotationOfCamera;
+            _playerInput.Pick -= OnPick;
         }
 
-        private void OnHorizontalInput(float horizontalInput)
+        private void OnMovement(Vector2 vector)
         {
-            _characterBehavior.SetRightMoving(horizontalInput);
-        }
-
-        private void OnVerticalInput(float verticalInput)
-        {
-            _characterBehavior.SetForwardMoving(verticalInput);
+            _characterBehavior.SetMoving(vector);
         }
 
         private void OnRotationOfCamera(Vector3 angleOfCameraRotation)

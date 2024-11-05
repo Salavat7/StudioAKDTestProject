@@ -7,8 +7,7 @@ namespace PlayerInput
     public class KeyboardMouseInput : IPlayerInput, ITickable
     {
         public event Action<Vector3> RotationOfCamera;
-        public event Action<float> HorizontalInput;
-        public event Action<float> VerticalInput;
+        public event Action<Vector2> Movement;
         public event Action<bool> Pick;
 
         private bool _enable;
@@ -35,8 +34,8 @@ namespace PlayerInput
         {
             if (_enable)
             {
-                HorizontalInput?.Invoke(Input.GetAxis("Horizontal"));
-                VerticalInput?.Invoke(Input.GetAxis("Vertical"));
+                Vector2 movementVector = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
+                Movement?.Invoke(movementVector);
                 RotationOfCamera?.Invoke(AngleOfCameraRotation(Input.mousePosition));
                 Pick?.Invoke(Input.GetMouseButton(0));
             }

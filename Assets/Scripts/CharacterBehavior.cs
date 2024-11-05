@@ -9,8 +9,7 @@ public class CharacterBehavior : MonoBehaviour
     [SerializeField] private Camera _camera;
     [SerializeField] private Vector3 _offsetOfCamera;
     [SerializeField] private float _playerSpeed;
-    private float _moveForward;
-    private float _moveRight;
+    private Vector2 _movement;
     private Vector3 _angleOfCameraRotation;
     private Rigidbody _playerRb;
     private GameObject _pickedObj;
@@ -23,16 +22,15 @@ public class CharacterBehavior : MonoBehaviour
     private void Start()
     {
         _angleOfCameraRotation = _camera.transform.eulerAngles;
-        _moveForward = 0;
-        _moveRight = 0;
+        _movement = Vector2.zero;
     }
 
     private void FixedUpdate()
     {
         _camera.transform.position = gameObject.transform.position + _offsetOfCamera;
         _camera.transform.eulerAngles = _angleOfCameraRotation;
-        _playerRb.AddForce(_camera.transform.forward * _playerSpeed * _moveForward);
-        _playerRb.AddForce(_camera.transform.right * _playerSpeed * _moveRight);
+        _playerRb.AddForce(_camera.transform.right * _playerSpeed * _movement.x);
+        _playerRb.AddForce(_camera.transform.forward * _playerSpeed * _movement.y);
     }
 
     public void SetRotationOfCamera(Vector3 angleOfCameraRotation)
@@ -48,14 +46,9 @@ public class CharacterBehavior : MonoBehaviour
         _angleOfCameraRotation = angleOfCameraRotation;
     }
 
-    public void SetForwardMoving(float moveForward)
+    public void SetMoving(Vector2 movement)
     {
-        _moveForward = moveForward;
-    }
-
-    public void SetRightMoving(float moveRright)
-    {
-        _moveRight = moveRright;
+        _movement = movement;
     }
 
     public void Pick(bool pick)
