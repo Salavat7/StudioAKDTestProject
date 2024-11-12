@@ -10,6 +10,7 @@ public class GameplaySceneInstaller : MonoInstaller
     private void Awake()
     {
         Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
     public override void InstallBindings()

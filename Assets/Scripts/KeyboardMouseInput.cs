@@ -9,19 +9,11 @@ namespace PlayerInput
         public event Action<Vector3> RotationOfCamera;
         public event Action<Vector2> Movement;
         public event Action<bool> Pick;
-        private Vector3 _lastMousePos;
-        private float _RotationOfCameraSensitivity = 0.25f;
+        private float _RotationOfCameraSensitivity = 1;
 
-        public KeyboardMouseInput()
+        private Vector3 AngleOfCameraRotation(Vector3 deltaMousePos)
         {
-            _lastMousePos = Input.mousePosition;
-        }
-
-        private Vector3 AngleOfCameraRotation(Vector3 mousePos)
-        {
-            Vector3 difference = mousePos - _lastMousePos;
-            Vector3 coordinatesTransform = new Vector3(-difference.y * _RotationOfCameraSensitivity, difference.x * _RotationOfCameraSensitivity, 0);
-            _lastMousePos = Input.mousePosition;
+            Vector3 coordinatesTransform = new Vector3(-deltaMousePos.y * _RotationOfCameraSensitivity, deltaMousePos.x * _RotationOfCameraSensitivity, 0);
             return coordinatesTransform;
         }
 
@@ -29,7 +21,7 @@ namespace PlayerInput
         {
             Vector2 movementVector = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
             Movement?.Invoke(movementVector);
-            RotationOfCamera?.Invoke(AngleOfCameraRotation(Input.mousePosition));
+            RotationOfCamera?.Invoke(AngleOfCameraRotation(new Vector3(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y"), 0)));
             Pick?.Invoke(Input.GetMouseButton(0));
         }
     }
