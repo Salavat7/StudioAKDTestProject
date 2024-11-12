@@ -5,7 +5,7 @@ public class CharacterBehavior : MonoBehaviour
 {
     private const float MAX_DISTANCE_TO_PICK = 3;
     private const float MAX_ANGLE_OF_CAMERA_ROTATION = 50;
-    private const float MAX_PLAYER_SPEED = 5;
+    private const float MAX_PLAYER_SPEED = 8;
     [SerializeField] private LayerMask _pickable;
     [SerializeField] private Camera _camera;
     [SerializeField] private Vector3 _offsetOfCamera;
@@ -35,6 +35,10 @@ public class CharacterBehavior : MonoBehaviour
         {
             _playerRb.AddForce(_camera.transform.right * _playerAcceleration * _movement.x);
             _playerRb.AddForce(_camera.transform.forward * _playerAcceleration * _movement.y);
+        }
+        else
+        {
+            _playerRb.velocity = _playerRb.velocity.normalized * MAX_PLAYER_SPEED;
         }
     }
 
